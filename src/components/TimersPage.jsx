@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Timer from './Timer';
 import Timer2 from './Timer2';
+import Timer3 from './Timer3';
 import './style.css';
 
 class TimersPage extends Component {
@@ -8,9 +9,12 @@ class TimersPage extends Component {
         super(props)
 
         this.state = {
+            time: 200,
+            //custom by myself
             start: true,
             restart: undefined
         }
+        //custom bymyself
         this.getStart = this.getStart.bind(this);
         this.getRestart = this.getRestart.bind(this);
 
@@ -28,6 +32,22 @@ class TimersPage extends Component {
     };
 
 
+    handleTimeEnd = () => {
+        console.log('Час вийшов!')
+        this.setState({
+            time: this.state.time
+        })
+    }
+    handleChangeTick = (seconds) => {
+        console.log(seconds)
+    }
+    handleTimeStart = (timeLeft, renderTime) => {
+        console.log(`Таймер запущено, залишилося: ${renderTime(timeLeft)}c`)
+    }
+    handleTimePause = (timeLeft, renderTime) => {
+        console.log(`Таймер на паузі, залишилося: ${renderTime(timeLeft)}с`)
+    }
+
 
 
 
@@ -41,6 +61,13 @@ class TimersPage extends Component {
                 <div>
                     <Timer2 />
                 </div>
+                <div>
+                    <Timer3 time={this.state.time} autostart={false} step={300} onTick={this.handleChangeTick}
+                        onTimeEnd={this.handleTimeEnd}
+                        onTimeStart={this.handleTimeStart}
+                        onTimePause={this.handleTimePause} />
+                </div>
+
             </div>
         )
     }
@@ -51,15 +78,3 @@ class TimersPage extends Component {
 export default TimersPage;
 
 
-// render() {
-//     const { open } = this.state
-
-//     return (
-//         <div className="clock">
-//             <button onClick={this.toggle}>{open ? 'Close' : 'Open'} Clock</button>
-//             { open ? <Ticker /> : null}
-//             <Buddy name="Sam" />
-//         </div>
-
-//     )
-// }
