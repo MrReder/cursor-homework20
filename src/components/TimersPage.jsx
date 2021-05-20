@@ -12,18 +12,25 @@ class TimersPage extends Component {
             time: 200,
             //custom by myself
             start: true,
+            pause: true,
             restart: undefined
         }
         //custom bymyself
         this.getStart = this.getStart.bind(this);
+        this.getPause = this.getPause.bind(this);
         this.getRestart = this.getRestart.bind(this);
 
     }
 
     getStart = () => {
-        this.setState({ restart: true });
-        setTimeout(() => { this.setState({ restart: false }) }, 1000);
+        this.setState({ start: true });
+        setTimeout(() => { this.setState({ start: false }) }, 1000);
     };
+
+    getPause = () => {
+        this.setState({ pause: true });
+        setTimeout(() => { this.setState({ pause: false }) }, 1000);
+    }
 
     getRestart = () => {
         this.setState(({ restart }) => ({
@@ -53,10 +60,14 @@ class TimersPage extends Component {
 
     render() {
         const { start } = this.state;
+        const { pause } = this.state;
         return (
             <div className="timer-wrapper">
-                <Timer start={this.state.start} restart={this.state.restart} />
-                <button onClick={this.getStart} className="btn">{start ? 'Pause' : 'Start'} timer</button>
+                <Timer start={this.state.start} restart={this.state.restart} pause={this.state.pause} />
+                {
+                    start ? <button onClick={this.getStart} className="btn">{start ? 'Pause' : 'Start'} timer</button> :
+                        <button onClick={this.getPause} className="btn">{pause ? 'Start' : 'Pause'} timer</button>
+                }
                 <button onClick={this.getRestart} className="btn">Restart timer</button>
                 <div>
                     <Timer2 />
